@@ -117,7 +117,7 @@ class GitlabParse(HTMLParser):
 def run():
     args = sys.argv
     if len(args) != 3:
-        print("usage: {} target-url(http://gitlab:port) local-ip".format(args[0]))
+        print("usage: {} <http://gitlab:port> <local-ip>".format(args[0]))
         return
     else:
         target_url = args[1]
