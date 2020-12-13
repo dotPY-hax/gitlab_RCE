@@ -7,5 +7,6 @@ Educational use only. Illegal things are illegal.
 CVEs: CVE-2018-19571 (SSRF) + CVE-2018-19585 (CRLF)
 
 credits: 
+
   https://www.youtube.com/watch?v=LrLJuyAdoAg - LiveOverflow  
   https://github.com/jas502n/gitlab-SSRF-redis-RCE - jas502n
