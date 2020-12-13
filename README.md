@@ -10,3 +10,7 @@ credits:
 
   https://www.youtube.com/watch?v=LrLJuyAdoAg - LiveOverflow  
   https://github.com/jas502n/gitlab-SSRF-redis-RCE - jas502n
+  
+usage:
+
+  python gitlab_rce.py target-url(http://gitlab:port) local-ip
