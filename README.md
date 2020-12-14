@@ -15,6 +15,6 @@ usage:
 
   `python gitlab_rce.py <http://gitlab:port> <local-ip>`
   
-  You might or might not have to tweak this a bit. For example the redis port (6379) might be different for your target.
+  You might or might not have to tweak this a bit.
 
 THERE ARE ABSOLUTELY !!NO!! CHECKS OR ERROR HANDLING! 
