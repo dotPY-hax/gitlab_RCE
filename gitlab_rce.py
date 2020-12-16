@@ -28,7 +28,7 @@ class GitlabRCE:
         self.local_ip = local_ip
         self.port = 42069
         # change this if the gitlab has restricted email domains
-        self.email_domain = "laboratory.htb"
+        self.email_domain = "gmail.com"
         self.session = requests.session()
         self.username = ""
         self.password = ""
