@@ -21,4 +21,4 @@ usage:
   
   You might or might not have to tweak this a bit.
 
-THERE ARE ABSOLUTELY !!NO!! CHECKS OR ERROR HANDLING! 
+THERE ARE ~~ABSOLUTELY !!NO!!~~ VERY FEW CHECKS OR ERROR HANDLING! 
