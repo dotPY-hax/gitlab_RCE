@@ -1,5 +1,6 @@
 # Gitlab RCE - Remote Code Execution
 RCE for old gitlab version &lt;= 11.4.7 & 12.4.0-12.8.1
+
 LFI for old gitlab versions 10.4 - 12.8.1
 
 This is an exploit for old Gitlab versions. The vulnerability is from 2018 so this shouldnt work in the wild but it still seems to be popular in CTFs. 
@@ -11,8 +12,9 @@ CVE-2020-10977
 credits: 
 
   https://www.youtube.com/watch?v=LrLJuyAdoAg - LiveOverflow  
-  https://github.com/jas502n/gitlab-SSRF-redis-RCE - jas502n
-  https://hackerone.com/reports/827052 - vakzz
+  https://github.com/jas502n/gitlab-SSRF-redis-RCE - jas502n  
+  https://hackerone.com/reports/827052 - vakzz  
+  partly inspired by the gitlab RCE metasploit module
   
 usage:
 
